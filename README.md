@@ -11,15 +11,39 @@ Jackal Flask - Setup
 
 ### Build Flask App
 
-`docker build -t jackal-flask .`
+`docker build -t <image-name> .`
 
 ### Run Flask App Test
 
-`docker run -ti --rm jackal-flask python app_tests.py`
+`docker run -ti --rm <image-name> python app_tests.py`
 
-### Start Flask App
+### Start Flask App Container
 
-`docker run -ti --rm --name running-jackal-flask -p 5000:5000 jackal-flask`
+`docker run -d --name <container-name> --env PORT=5000 -p 5000:5000 <image-name>`
+
+### Check Flask App Container Log
+
+`docker logs -f <container-name>`
+
+### Remote Flask App Container
+
+`docker rm -f <container-name>`
+
+### Deploy Flask App To Heroku
+
+* `heroku login`
+* `heroku container:login`
+* `heroku apps --all`
+* `heroku container:push web -a <heroku-app-name>`
+* `heroku open -a <heroku-app-name>`
+
+### Destory Flask App On Heroku
+
+* `heroku container:rm web -a <heroku-app-name>`
+
+### Clean Up Docker Images
+
+`docker rmi -f $(docker images --filter "dangling=true" -q --no-trunc)`
 
 ## Contributing
 

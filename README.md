@@ -1,4 +1,4 @@
-Jackal Flask
+Jackal Flask - Setup
 ========================
 
 ## Idea Source
@@ -9,14 +9,17 @@ Jackal Flask
 
 ## User Guide
 
-### Clone this project
+### Build Flask App
 
-`git clone https://github.com/wgx731/jackal-flask.git`
+`docker build -t jackal-flask .`
 
-### Swtich to tutorial branch
+### Run Flask App Test
 
-* `git checkout <branch-name>` **setup, mvc, rest, persistent, auth, final**
-* follow instructions on `README.md`
+`docker run -ti --rm jackal-flask python app_tests.py`
+
+### Start Flask App
+
+`docker run -ti --rm --name running-jackal-flask -p 5000:5000 jackal-flask`
 
 ## Contributing
 

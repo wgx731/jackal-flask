@@ -7,6 +7,20 @@ Jackal Flask - Setup
 
 ![Image Of Jackal](https://upload.wikimedia.org/wikipedia/zh/7/70/Jackal.png)
 
+## Prerequisite
+
+### Docker
+
+* [Download Docker](https://www.docker.com/community-edition#/download)
+* [Docker Get Started](https://docs.docker.com/get-started)
+* [Docker Documentation](https://docs.docker.com)
+
+### Heroku
+
+* [Sign Up](https://www.heroku.com)
+* [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli)
+* [Heroku Container Registry](https://devcenter.heroku.com/articles/container-registry-and-runtime)
+
 ## User Guide
 
 ### Build Flask App

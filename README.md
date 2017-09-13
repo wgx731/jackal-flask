@@ -39,7 +39,7 @@ Jackal Flask - Setup
 
 `docker logs -f <container-name>`
 
-### Remote Flask App Container
+### Remove Flask App Container
 
 `docker rm -f <container-name>`
 

@@ -29,7 +29,9 @@ Jackal Flask - Setup
 
 ### Run Flask App Test
 
-`docker run -ti --rm <image-name> python app_tests.py`
+* `docker run -ti --rm -v $PWD:/opt/webapp <image-name> coverage run --source=app app_tests.py`
+* `docker run -ti --rm -v $PWD:/opt/webapp <image-name> coverage report`
+* `docker run -ti --rm -v $PWD:/opt/webapp <image-name> coverage html`
 
 ### Start Flask App Container
 

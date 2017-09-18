@@ -1,31 +1,15 @@
 from flask import render_template
-from datetime import date
-from app.models import User, Stock
+from app.models import User, Stock, get_sample_user, get_sample_stocks
 from app import app
 
 
 @app.route('/')
 @app.route('/index')
 def index():
-    user = User('wgx731')
-    stock1 = Stock()
-    stock1.date = date(1985, 11, 1)
-    stock1.open = 115.48
-    stock1.high = 116.78
-    stock1.low = 115.48
-    stock1.close = 116.28
-    stock1.volume = 900900
-    stock1.symbol = 'GOOGL'
-    stock2 = Stock()
-    stock2.date = date(1985, 11, 4)
-    stock2.open = 116.28
-    stock2.high = 117.07
-    stock2.low = 115.82
-    stock2.close = 116.04
-    stock2.volume = 753400
-    stock2.symbol = 'AAPL'
-    stocks = [stock1, stock2]
+    user = get_sample_user()
+    stocks = get_sample_stocks()
     return render_template("index.html",
                            title='Home',
                            user=user,
                            stocks=stocks)
+

@@ -29,7 +29,7 @@ Jackal Flask - Setup
 
 ### Run Flask App Test With Coverage
 
-* `docker run -ti --rm -v $PWD:/opt/webapp <image-name> coverage run --source=app app_tests.py`
+* `docker run -ti --rm -v $PWD:/opt/webapp <image-name> coverage run --source=app tests.py`
 * `docker run -ti --rm -v $PWD:/opt/webapp <image-name> coverage report`
 * `docker run -ti --rm -v $PWD:/opt/webapp <image-name> coverage html`
 

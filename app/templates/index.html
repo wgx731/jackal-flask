@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Hi, {{ user.nickname }}!</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>date</th>
+                <th>open</th>
+                <th>high</th>
+                <th>low</th>
+                <th>close</th>
+                <th>volume</th>
+                <th>symbol</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for stock in stocks %}
+                <tr>
+                    <td>{{stock.date}}</td>
+                    <td>{{stock.open}}</td>
+                    <td>{{stock.high}}</td>
+                    <td>{{stock.low}}</td>
+                    <td>{{stock.close}}</td>
+                    <td>{{stock.volume}}</td>
+                    <td>{{stock.symbol}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,14 @@
+<html>
+  <head>
+    {% if title %}
+    <title>{{ title }} | jackal-flask</title>
+    {% else %}
+    <title>jackal-flask</title>
+    {% endif %}
+  </head>
+  <body>
+    <div>Jackal Flask: <a href="/index">Home</a></div>
+    <hr>
+    {% block content %}{% endblock %}
+  </body>
+</html>

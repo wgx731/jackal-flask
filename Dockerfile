@@ -1,5 +1,5 @@
 # Grab base image
-FROM python:3.6.2-alpine3.4
+FROM python:3.6.2-alpine3.6
 
 # Install python and pip
 COPY ./requirements.txt /tmp/requirements.txt
@@ -13,8 +13,8 @@ COPY . /opt/webapp/
 WORKDIR /opt/webapp
 
 # Run the image as a non-root user
-RUN adduser -D myuser
-USER myuser
+RUN adduser -D flaskuser
+USER flaskuser
 
 # Run the app.  CMD is required to run on Heroku
 # $PORT is set by Heroku

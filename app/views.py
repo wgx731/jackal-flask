@@ -1,5 +1,5 @@
 from flask import render_template
-from app.models import User, Stock, get_sample_user, get_sample_stocks
+from app.utils import get_sample_user, get_sample_stocks
 from app import app
 
 

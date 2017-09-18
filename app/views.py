@@ -1,6 +1,22 @@
-from flask import render_template
-from app.utils import get_sample_user, get_sample_stocks
+from flask import render_template, request, jsonify, Response
+from app.utils import get_sample_user, get_sample_stocks, \
+        get_sample_stocks_as_csv
 from app import app
+
+
+def accept_json():
+    best = request.accept_mimetypes \
+            .best_match(['application/json', 'text/plain'])
+    return best == 'application/json' and \
+            request.accept_mimetypes[best] > \
+            request.accept_mimetypes['text/plain']
+
+def accept_csv():
+    best = request.accept_mimetypes \
+            .best_match(['text/csv', 'text/plain'])
+    return best == 'text/csv' and \
+            request.accept_mimetypes[best] > \
+            request.accept_mimetypes['text/plain']
 
 
 @app.route('/')
@@ -12,4 +28,25 @@ def index():
                            title='Home',
                            user=user,
                            stocks=stocks)
+
+@app.route('/api/stocks.txt')
+def stocks_txt():
+    return Response('\n'.join([str(s) for s in get_sample_stocks()]), mimetype='text/plain')
+
+@app.route('/api/stocks.csv')
+def stocks_csv():
+    return Response(get_sample_stocks_as_csv(), mimetype='text/csv')
+
+@app.route('/api/stocks.json')
+def stocks_json():
+    return jsonify([s.to_dict() for s in get_sample_stocks()])
+
+@app.route('/api/stocks')
+def stocks():
+    if accept_csv():
+        return stocks_csv()
+    elif accept_json():
+        return stocks_json()
+    else:
+        return stocks_txt()
 

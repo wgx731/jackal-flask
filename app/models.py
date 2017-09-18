@@ -69,3 +69,31 @@ class Stock:
     def symbol(self, symbol):
         self.__symbol = symbol
 
+    @classmethod
+    def keys(cls):
+        return [
+            'symbol', 'open', 'high',
+            'low', 'close', 'volume', 'date'
+        ]
+
+    def to_dict(self):
+        return {
+            'symbol': self.symbol,
+            'open': self.open,
+            'high': self.high,
+            'low': self.low,
+            'close': self.close,
+            'volume': self.volume,
+            'date': self.date.isoformat()
+        }
+
+    def __str__(self):
+        return 'Stock - {} with price: {}, {}, {}, {}, {} on {}'.format(
+            self.symbol,
+            self.open,
+            self.high,
+            self.low,
+            self.close,
+            self.volume,
+            self.date)
+

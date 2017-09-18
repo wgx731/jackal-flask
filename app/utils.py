@@ -1,4 +1,6 @@
+from io import StringIO
 from datetime import date
+import csv
 from app.models import User, Stock
 
 
@@ -23,4 +25,11 @@ def get_sample_stocks():
     stock2.volume = 753400
     stock2.symbol = 'AAPL'
     return [stock1, stock2]
+
+def get_sample_stocks_as_csv():
+    si = StringIO()
+    cw = csv.DictWriter(si, Stock.keys())
+    cw.writeheader()
+    cw.writerows([s.to_dict() for s in get_sample_stocks()])
+    return si.getvalue()
 

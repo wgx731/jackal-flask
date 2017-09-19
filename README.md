@@ -27,6 +27,16 @@ Jackal Flask - Setup
 
 `docker build -t <image-name> .`
 
+### Database Utils
+
+##### Create Flask App Local Sqlite Database (One Time Setup)
+
+`docker run -d --name <container-name> -v $PWD:/opt/webapp --env PORT=5000 --env DATABASE_URL=sqlite:////opt/webapp/local.db -p 5000:5000 <image-name> python create_db.py`
+
+##### Drop Flask App Local Sqlite Database (One Time Clean Up)
+
+`docker run -d --name <container-name> -v $PWD:/opt/webapp --env PORT=5000 --env DATABASE_URL=sqlite:////opt/webapp/local.db -p 5000:5000 <image-name> python drop_db.py`
+
 ### Run Flask App Test With Coverage
 
 * `docker run -ti --rm -v $PWD:/opt/webapp <image-name> coverage run --source=app tests.py`
@@ -35,7 +45,7 @@ Jackal Flask - Setup
 
 ### Start Flask App Container
 
-`docker run -d --name <container-name> --env PORT=5000 -p 5000:5000 <image-name>`
+`docker run -d --name <container-name> -v $PWD:/opt/webapp --env PORT=5000 --env DATABASE_URL=sqlite:////opt/webapp/local.db -p 5000:5000 <image-name>`
 
 ### Check Flask App Container Log
 
@@ -44,6 +54,11 @@ Jackal Flask - Setup
 ### Remove Flask App Container
 
 `docker rm -f <container-name>`
+
+### Create Heroku Postgresql Addon (One Time Setup)
+
+* `heroku login`
+* `heroku addons:create heroku-postgresql:hobby-dev -a <heroku-app-name>`
 
 ### Deploy Flask App To Heroku
 

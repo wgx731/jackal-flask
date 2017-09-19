@@ -1,3 +1,6 @@
+from app import db
+
+
 class User:
     """A User class"""
     def __init__(self, nickname):
@@ -11,63 +14,28 @@ class User:
     def name(self, nickname):
         self.__name = nickname
 
-class Stock:
+
+class Stock(db.Model):
     """A Stock class"""
-    @property
-    def date(self):
-        return self.__date
+    __tablename__ = 'stock'
 
-    @date.setter
-    def date(self, date):
-        self.__date = date
+    id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.Date)
+    open = db.Column(db.Float)
+    high = db.Column(db.Float)
+    low = db.Column(db.Float)
+    close = db.Column(db.Float)
+    volume = db.Column(db.Integer)
+    symbol = db.Column(db.String(10), unique=True)
 
-    @property
-    def open(self):
-        return self.__open
-
-    @open.setter
-    def open(self, open):
-        self.__open = open
-
-    @property
-    def high(self):
-        return self.__high
-
-    @high.setter
-    def high(self, high):
-        self.__high = high
-
-    @property
-    def low(self):
-        return self.__low
-
-    @low.setter
-    def low(self, low):
-        self.__low = low
-
-    @property
-    def close(self):
-        return self.__close
-
-    @close.setter
-    def close(self, close):
-        self.__close = close
-
-    @property
-    def volume(self):
-        return self.__volume
-
-    @volume.setter
-    def volume(self, volume):
-        self.__volume = volume
-
-    @property
-    def symbol(self):
-        return self.__symbol
-
-    @symbol.setter
-    def symbol(self, symbol):
-        self.__symbol = symbol
+    def __init__(self, date, open, high, low, close, volume, symbol):
+        self.date = date
+        self.open = open
+        self.high = high
+        self.low = low
+        self.close = close
+        self.volume = volume
+        self.symbol = symbol
 
     @classmethod
     def keys(cls):
@@ -75,6 +43,9 @@ class Stock:
             'symbol', 'open', 'high',
             'low', 'close', 'volume', 'date'
         ]
+
+    def __repr__(self):
+        return '<Stock %r>' % self.symbol
 
     def to_dict(self):
         return {

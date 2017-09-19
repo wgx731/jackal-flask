@@ -5,7 +5,11 @@ FROM python:3.6.2-alpine3.6
 COPY ./requirements.txt /tmp/requirements.txt
 
 # Install dependencies
-RUN pip3 install --no-cache-dir -q -r /tmp/requirements.txt \
+RUN apk add --no-cache --virtual .build-deps \
+    postgresql-dev \
+    gcc \
+    musl-dev \
+    && pip3 install --no-cache-dir -q -r /tmp/requirements.txt \
     && rm /tmp/requirements.txt
 
 # Add our code

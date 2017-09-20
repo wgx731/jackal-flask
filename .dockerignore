@@ -5,6 +5,7 @@ README.md
 htmlcov/
 __pycache__/
 app/__pycache__/
+ndx_sample/
 db/
 Dockerfile
 Dockerfile.local

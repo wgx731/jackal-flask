@@ -2,19 +2,14 @@
 FROM python:3.6.2-alpine3.6
 
 # Install python and pip
-COPY ./requirements.txt /tmp/requirements.txt
+COPY ./requirements-local.txt /tmp/requirements.txt
 
 # Install dependencies
-RUN apk add --no-cache --virtual .build-deps \
-    postgresql-dev \
-    gcc \
-    musl-dev \
-    && pip3 install --no-cache-dir -q -r /tmp/requirements.txt \
+RUN pip3 install --no-cache-dir -q -r /tmp/requirements.txt \
     && rm /tmp/requirements.txt
 
 # Add our code
-COPY app /opt/webapp/app
-COPY wsgi.py /opt/webapp/
+COPY . /opt/webapp/
 WORKDIR /opt/webapp
 
 # Run the image as a non-root user

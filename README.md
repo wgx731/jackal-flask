@@ -25,17 +25,17 @@ Jackal Flask - Setup
 
 ### Build Flask App
 
-`docker build -t <image-name> .`
+`docker build -t <image-name> -f Dockerfile.local .`
 
 ### Database Utils
 
 ##### Create Flask App Local Sqlite Database (One Time Setup)
 
-`docker run -d --name <container-name> -v $PWD:/opt/webapp --env PORT=5000 --env DATABASE_URL=sqlite:////opt/webapp/local.db -p 5000:5000 <image-name> python create_db.py`
+`docker run -d --name <container-name> -v $PWD:/opt/webapp --env PORT=5000 -p 5000:5000 <image-name> python create_db.py`
 
 ##### Drop Flask App Local Sqlite Database (One Time Clean Up)
 
-`docker run -d --name <container-name> -v $PWD:/opt/webapp --env PORT=5000 --env DATABASE_URL=sqlite:////opt/webapp/local.db -p 5000:5000 <image-name> python drop_db.py`
+`docker run -d --name <container-name> -v $PWD:/opt/webapp --env PORT=5000 -p 5000:5000 <image-name> python drop_db.py`
 
 ### Run Flask App Test With Coverage
 
@@ -45,7 +45,7 @@ Jackal Flask - Setup
 
 ### Start Flask App Container
 
-`docker run -d --name <container-name> -v $PWD:/opt/webapp --env PORT=5000 --env DATABASE_URL=sqlite:////opt/webapp/local.db -p 5000:5000 <image-name>`
+`docker run -d --name <container-name> -v $PWD:/opt/webapp --env PORT=5000 -p 5000:5000 <image-name>`
 
 ### Check Flask App Container Log
 

@@ -1,4 +1,7 @@
 .git/
 LICENSE
 README.md
+.*.un~
+htmlcov/
+__pycache__/
 

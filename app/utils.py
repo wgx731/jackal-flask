@@ -12,7 +12,7 @@ def get_all_stocks():
 
 def get_all_stocks_as_csv():
     si = StringIO()
-    cw = csv.DictWriter(si, Stock.keys())
+    cw = csv.DictWriter(si, Stock.keys(), quoting=csv.QUOTE_NONNUMERIC)
     cw.writeheader()
     cw.writerows([s.to_dict() for s in get_all_stocks()])
     return si.getvalue()

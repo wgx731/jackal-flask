@@ -28,24 +28,24 @@ Jackal Flask - Setup
 `docker build -t <image-name> -f Dockerfile.local .`
 
 ### Database Utils
-
+ccept=text/csv localhost:5000/api/stocks
 ##### Create Flask App Local Sqlite Database (One Time Setup)
 
-`docker run -d --name <container-name> -v $PWD:/opt/webapp --env PORT=5000 -p 5000:5000 <image-name> python create_db.py`
+`docker run -ti --rm -v $PWD/db:/opt/webapp/db <image-name> python create_db.py`
 
 ##### Drop Flask App Local Sqlite Database (One Time Clean Up)
 
-`docker run -d --name <container-name> -v $PWD:/opt/webapp --env PORT=5000 -p 5000:5000 <image-name> python drop_db.py`
+`docker run -ti --rm -v $PWD/db:/opt/webapp/db <image-name> python drop_db.py`
 
 ### Run Flask App Test With Coverage
 
-* `docker run -ti --rm -v $PWD:/opt/webapp <image-name> coverage run --source=app tests.py`
-* `docker run -ti --rm -v $PWD:/opt/webapp <image-name> coverage report`
-* `docker run -ti --rm -v $PWD:/opt/webapp <image-name> coverage html`
+* `docker run -ti -v $PWD:/opt/webapp -v $PWD/db:/opt/webapp/db --rm <image-name> coverage run --source=app tests.py`
+* `docker run -ti -v $PWD:/opt/webapp --rm <image-name> coverage report`
+* `docker run -ti -v $PWD:/opt/webapp --rm <image-name> coverage html`
 
 ### Start Flask App Container
 
-`docker run -d --name <container-name> -v $PWD:/opt/webapp --env PORT=5000 -p 5000:5000 <image-name>`
+`docker run -d --name <container-name> -v $PWD/db:/opt/webapp/db --env PORT=5000 -p 5000:5000 <image-name>`
 
 ### Check Flask App Container Log
 

@@ -4,4 +4,8 @@ README.md
 .*.un~
 htmlcov/
 __pycache__/
+app/__pycache__/
+db/
+Dockerfile
+Dockerfile.local
 

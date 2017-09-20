@@ -28,7 +28,7 @@ Jackal Flask - Setup
 `docker build -t <image-name> -f Dockerfile.local .`
 
 ### Database Utils
-ccept=text/csv localhost:5000/api/stocks
+
 ##### Create Flask App Local Sqlite Database (One Time Setup)
 
 `docker run -ti --rm -v $PWD/db:/opt/webapp/db <image-name> python create_db.py`

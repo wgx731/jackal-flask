@@ -95,6 +95,7 @@ Jackal Flask - Setup
 * `heroku git:remote -a <heroku-app-name>`
 * `git push -f heroku setup:master`
 * `heroku open -a <heroku-app-name>`
+* `heroku logs -a <heroku-app-name>`
 
 ## Contributing
 

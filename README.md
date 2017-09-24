@@ -41,7 +41,7 @@ Jackal Flask - Setup
 
 ### Start Flask App Container
 
-`docker run -d --name <container-name> --env PORT=5000 -p 5000:5000 <image-name>`
+`docker run -ti --rm --env PORT=5000 -p 5000:5000 <image-name>`
 
 ### Check Flask App Container Log
 

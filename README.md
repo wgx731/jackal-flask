@@ -9,11 +9,17 @@ Jackal Flask - Setup
 
 ## Prerequisite
 
-### Docker
+### Docker (Optional)
 
 * [Download Docker](https://www.docker.com/community-edition#/download)
 * [Docker Get Started](https://docs.docker.com/get-started)
 * [Docker Documentation](https://docs.docker.com)
+
+### Pipenv
+
+* [Python Installation Guide](http://docs.python-guide.org/en/latest/starting/installation)
+* [Pipenv Documentation](https://pipenv.readthedocs.io/en/latest)
+* [Pipenv Install Guide](https://pipenv.readthedocs.io/en/latest/basics.html#installing-pipenv)
 
 ### Heroku
 
@@ -21,7 +27,7 @@ Jackal Flask - Setup
 * [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli)
 * [Heroku Container Registry](https://devcenter.heroku.com/articles/container-registry-and-runtime)
 
-## User Guide
+## Docker User Guide
 
 ### Build Flask App
 
@@ -35,7 +41,7 @@ Jackal Flask - Setup
 
 ### Start Flask App Container
 
-`docker run -d --name <container-name> --env PORT=5000 -p 5000:5000 <image-name>`
+`docker run -ti --rm --env PORT=5000 -p 5000:5000 <image-name>`
 
 ### Check Flask App Container Log
 
@@ -60,6 +66,36 @@ Jackal Flask - Setup
 ### Clean Up Docker Images
 
 `docker rmi -f $(docker images --filter "dangling=true" -q --no-trunc)`
+
+## Pipenv User Guide
+
+### Install Depedencies
+
+`pipenv install --dev`
+
+### Run Flask App
+
+##### Setup FLASK APP
+* Mac / Linux: `export FLASK_APP=app_win.py`
+* Windows: `set FLASK_APP=app_win.py`
+
+##### Run FLASK APP
+`pipenv run flask run`
+
+###  Run Flask App Test With Coverage
+
+`pipenv run coverage run --source=app tests.py`
+`pipenv run coverage report`
+`pipenv run coverage html`
+
+### Deploy Flask App To Heroku
+
+* `heroku login`
+* `heroku apps --all`
+* `heroku git:remote -a <heroku-app-name>`
+* `git push -f heroku setup:master`
+* `heroku open -a <heroku-app-name>`
+* `heroku logs -a <heroku-app-name>`
 
 ## Contributing
 

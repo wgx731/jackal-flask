@@ -1,0 +1,16 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+
+flask = "*"
+"flask-restless-swagger-2" = "*"
+"flask-sqlalchemy" = "*"
+gunicorn = "*"
+"psycopg2" = "*"
+
+
+[dev-packages]
+coverage = "*"

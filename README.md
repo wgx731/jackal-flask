@@ -75,7 +75,12 @@ Jackal Flask - Setup
 
 ### Run Flask App
 
-`pipenv run gunicorn --bind 0.0.0.0:5000 wsgi --access-logfile - --log-file -`
+##### Setup FLASK APP
+* Mac / Linux: `export FLASK_APP=app_win.py`
+* Windows: `set FLASK_APP=app_win.py`
+
+##### Run FLASK APP
+`pipenv run flask run`
 
 ###  Run Flask App Test With Coverage
 

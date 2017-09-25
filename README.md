@@ -27,6 +27,8 @@ Jackal Flask - Setup
 * [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli)
 * [Heroku Container Registry](https://devcenter.heroku.com/articles/container-registry-and-runtime)
 
+###### NOTE: heroku app used in docker user guide and pipenv user guide should be different app!
+
 ## Docker User Guide
 
 ### Build Flask App
@@ -50,18 +52,18 @@ _NOTE:_ the container will be removed once you quit app using `Ctrl+C`
 * `heroku login`
 * `heroku container:login`
 * `heroku apps --all`
-* `heroku container:push web -a <heroku-app-name>`
-* `heroku open -a <heroku-app-name>`
+* `heroku container:push web -a <heroku-docker-app-name>`
+* `heroku open -a <heroku-docker-app-name>`
 
 ### Destory Flask App On Heroku
 
-* `heroku container:rm web -a <heroku-app-name>`
+* `heroku container:rm web -a <heroku-docker-app-name>`
 
 ### Clean Up Docker Images
 
 `docker rmi -f $(docker images --filter "dangling=true" -q --no-trunc)`
 `docker rmi -f jackal-flask`
-`docker rmi -f registry.heroku.com/<heroku-app-name>/web`
+`docker rmi -f registry.heroku.com/<heroku-docker-app-name>/web`
 
 ## Pipenv User Guide
 
@@ -71,11 +73,13 @@ _NOTE:_ the container will be removed once you quit app using `Ctrl+C`
 
 ### Run Flask App
 
-##### Setup FLASK APP
+##### Setup Environment Variable
+
 * Mac / Linux: `export FLASK_APP=app_local.py`
 * Windows: `set FLASK_APP=app_local.py`
 
-##### Run FLASK APP
+##### Start Flask App
+
 `pipenv run flask run`
 
 ###  Run Flask App Test With Coverage
@@ -88,10 +92,10 @@ _NOTE:_ the container will be removed once you quit app using `Ctrl+C`
 
 * `heroku login`
 * `heroku apps --all`
-* `heroku git:remote -a <heroku-app-name>`
+* `heroku git:remote -a <heroku-normal-app-name>`
 * `git push -f heroku setup:master`
-* `heroku open -a <heroku-app-name>`
-* `heroku logs -a <heroku-app-name>`
+* `heroku open -a <heroku-normal-app-name>`
+* `heroku logs -a <heroku-normal-app-name>`
 
 ## Contributing
 

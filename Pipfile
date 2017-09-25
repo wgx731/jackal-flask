@@ -4,7 +4,6 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-
 flask = "*"
 "flask-restless-swagger-2" = "*"
 "flask-sqlalchemy" = "*"
@@ -14,3 +13,7 @@ gunicorn = "*"
 
 [dev-packages]
 coverage = "*"
+
+[requires]
+python_version = "3.6"
+

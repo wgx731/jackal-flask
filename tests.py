@@ -2,13 +2,13 @@ import os
 from datetime import date
 import unittest
 from flask import url_for
-from app import app, db
+from app import app, db, default_db_path, default_db_uri
 from app.models import Stock
 
 class JackalFlaskTest(unittest.TestCase):
 
     def setUp(self):
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////opt/webapp/db/test.sqlite'
+        app.config['SQLALCHEMY_DATABASE_URI'] = default_db_uri.replace("local", "test")
         app.testing = True
         self.app = app.test_client()
         with app.app_context():
@@ -16,7 +16,7 @@ class JackalFlaskTest(unittest.TestCase):
 
     def tearDown(self):
         db.drop_all()
-        os.unlink('/opt/webapp/db/test.sqlite')
+        os.unlink(default_db_path.replace("local", "test"))
         del self.app
 
     def test_index(self):

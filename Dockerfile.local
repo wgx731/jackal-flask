@@ -1,7 +1,7 @@
 # Grab base image
 FROM python:3.6.2-alpine3.6
 
-# Install python and pip
+# Copy requirements
 COPY ./requirements-local.txt /tmp/requirements.txt
 
 # Install dependencies
@@ -18,5 +18,5 @@ USER flaskuser
 
 # Run the app.  CMD is required to run on Heroku
 # $PORT is set by Heroku
-CMD gunicorn --bind 0.0.0.0:$PORT --access-logfile - wsgi
+CMD gunicorn --bind 0.0.0.0:$PORT wsgi --access-logfile - --log-file -
 

@@ -31,25 +31,19 @@ Jackal Flask - Setup
 
 ### Build Flask App
 
-`docker build -t <image-name> .`
+`docker build -t jackal-flask -f Dockerfile.local .`
 
 ### Run Flask App Test With Coverage
 
-* `docker run -ti --rm -v $PWD:/opt/webapp <image-name> coverage run --source=app tests.py`
-* `docker run -ti --rm -v $PWD:/opt/webapp <image-name> coverage report`
-* `docker run -ti --rm -v $PWD:/opt/webapp <image-name> coverage html`
+* `docker run -ti --rm -v $PWD:/opt/webapp jackal-flask coverage run --source=app tests.py`
+* `docker run -ti --rm -v $PWD:/opt/webapp jackal-flask coverage report`
+* `docker run -ti --rm -v $PWD:/opt/webapp jackal-flask coverage html`
 
 ### Start Flask App Container
 
-`docker run -ti --rm --env PORT=5000 -p 5000:5000 <image-name>`
+`docker run -ti --rm --env PORT=5000 -p 5000:5000 jackal-flask`
 
-### Check Flask App Container Log
-
-`docker logs -f <container-name>`
-
-### Remove Flask App Container
-
-`docker rm -f <container-name>`
+_NOTE:_ the container will be removed once you quit app using `Ctrl+C`
 
 ### Deploy Flask App To Heroku
 
@@ -66,6 +60,8 @@ Jackal Flask - Setup
 ### Clean Up Docker Images
 
 `docker rmi -f $(docker images --filter "dangling=true" -q --no-trunc)`
+`docker rmi -f jackal-flask`
+`docker rmi -f registry.heroku.com/<heroku-app-name>/web`
 
 ## Pipenv User Guide
 
@@ -76,8 +72,8 @@ Jackal Flask - Setup
 ### Run Flask App
 
 ##### Setup FLASK APP
-* Mac / Linux: `export FLASK_APP=app_win.py`
-* Windows: `set FLASK_APP=app_win.py`
+* Mac / Linux: `export FLASK_APP=app_local.py`
+* Windows: `set FLASK_APP=app_local.py`
 
 ##### Run FLASK APP
 `pipenv run flask run`

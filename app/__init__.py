@@ -8,5 +8,5 @@ def index():
 
 @app.route("/welcome")
 def welcome():
-    return "Test!"
+    return "Jackal Flask Setup Tutorial!"
 

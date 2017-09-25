@@ -9,11 +9,17 @@ Jackal Flask - Setup
 
 ## Prerequisite
 
-### Docker
+### Docker (Optional)
 
 * [Download Docker](https://www.docker.com/community-edition#/download)
 * [Docker Get Started](https://docs.docker.com/get-started)
 * [Docker Documentation](https://docs.docker.com)
+
+### Pipenv
+
+* [Python Installation Guide](http://docs.python-guide.org/en/latest/starting/installation)
+* [Pipenv Documentation](https://pipenv.readthedocs.io/en/latest)
+* [Pipenv Install Guide](https://pipenv.readthedocs.io/en/latest/basics.html#installing-pipenv)
 
 ### Heroku
 
@@ -21,45 +27,75 @@ Jackal Flask - Setup
 * [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli)
 * [Heroku Container Registry](https://devcenter.heroku.com/articles/container-registry-and-runtime)
 
-## User Guide
+###### NOTE: heroku app used in docker user guide and pipenv user guide should be different app!
+
+## Docker User Guide
 
 ### Build Flask App
 
-`docker build -t <image-name> .`
+`docker build -t jackal-flask -f Dockerfile.local .`
 
 ### Run Flask App Test With Coverage
 
-* `docker run -ti --rm -v $PWD:/opt/webapp <image-name> coverage run --source=app tests.py`
-* `docker run -ti --rm -v $PWD:/opt/webapp <image-name> coverage report`
-* `docker run -ti --rm -v $PWD:/opt/webapp <image-name> coverage html`
+* `docker run -ti --rm -v $PWD:/opt/webapp jackal-flask coverage run --source=app tests.py`
+* `docker run -ti --rm -v $PWD:/opt/webapp jackal-flask coverage report`
+* `docker run -ti --rm -v $PWD:/opt/webapp jackal-flask coverage html`
 
 ### Start Flask App Container
 
-`docker run -d --name <container-name> --env PORT=5000 -p 5000:5000 <image-name>`
+`docker run -ti --rm --env PORT=5000 -p 5000:5000 jackal-flask`
 
-### Check Flask App Container Log
-
-`docker logs -f <container-name>`
-
-### Remove Flask App Container
-
-`docker rm -f <container-name>`
+_NOTE:_ the container will be removed once you quit app using `Ctrl+C`
 
 ### Deploy Flask App To Heroku
 
 * `heroku login`
 * `heroku container:login`
 * `heroku apps --all`
-* `heroku container:push web -a <heroku-app-name>`
-* `heroku open -a <heroku-app-name>`
+* `heroku container:push web -a <heroku-docker-app-name>`
+* `heroku open -a <heroku-docker-app-name>`
 
 ### Destory Flask App On Heroku
 
-* `heroku container:rm web -a <heroku-app-name>`
+* `heroku container:rm web -a <heroku-docker-app-name>`
 
 ### Clean Up Docker Images
 
 `docker rmi -f $(docker images --filter "dangling=true" -q --no-trunc)`
+`docker rmi -f jackal-flask`
+`docker rmi -f registry.heroku.com/<heroku-docker-app-name>/web`
+
+## Pipenv User Guide
+
+### Install Depedencies
+
+`pipenv install --dev`
+
+### Run Flask App
+
+##### Setup Environment Variable
+
+* Mac / Linux: `export FLASK_APP=app_local.py`
+* Windows: `set FLASK_APP=app_local.py`
+
+##### Start Flask App
+
+`pipenv run flask run`
+
+###  Run Flask App Test With Coverage
+
+`pipenv run coverage run --source=app tests.py`
+`pipenv run coverage report`
+`pipenv run coverage html`
+
+### Deploy Flask App To Heroku
+
+* `heroku login`
+* `heroku apps --all`
+* `heroku git:remote -a <heroku-normal-app-name>`
+* `git push -f heroku rest:master`
+* `heroku open -a <heroku-normal-app-name>`
+* `heroku logs -a <heroku-normal-app-name>`
 
 ## Contributing
 

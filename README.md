@@ -63,6 +63,14 @@ _NOTE:_ the container will be removed once you quit app using `Ctrl+C`
 * `heroku addons:create heroku-postgresql:hobby-dev -a <heroku-docker-app-name>` or `heroku addons:attach <heroku-app-with-db>::DATABASE -a <heroku-docker-app-name>`
 * `heroku pg:promote <heroku-database> -a <heroku-docker-app-name>`
 
+### Create Heroku Postgresql Database (One Time Setup)
+
+* `heroku run python create_db.py`
+
+### Drop Heroku Postgresql Database (One Time Clean up)
+
+* `heroku run python drop_db.py`
+
 ### Deploy Flask App To Heroku
 
 * `heroku login`
@@ -119,6 +127,14 @@ _NOTE:_ the container will be removed once you quit app using `Ctrl+C`
 * `heroku login`
 * `heroku addons:create heroku-postgresql:hobby-dev -a <heroku-normal-app-name>` or `heroku addons:attach <heroku-app-with-db>::DATABASE -a <heroku-normal-app-name>`
 * `heroku pg:promote <heroku-database> -a <heroku-normal-app-name>`
+
+### Create Heroku Postgresql Database (One Time Setup)
+
+* `heroku run python create_db.py`
+
+### Drop Heroku Postgresql Database (One Time Clean up)
+
+* `heroku run python drop_db.py`
 
 ### Deploy Flask App To Heroku
 

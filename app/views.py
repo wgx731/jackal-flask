@@ -32,19 +32,16 @@ def index():
 
 # list stocks txt api
 @app.route('/api/stocks.txt', methods = ['GET'])
-@jwt_required()
 def get_stocks_in_txt():
     return Response('\n'.join([str(s) for s in get_all_stocks()]), mimetype='text/plain')
 
 # list stocks csv api
 @app.route('/api/stocks.csv', methods = ['GET'])
-@jwt_required()
 def get_stocks_in_csv():
     return Response(get_all_stocks_as_csv(), mimetype='text/csv')
 
 # list stocks json api
 @app.route('/api/stocks.json', methods = ['GET'])
-@jwt_required()
 def get_stocks_in_json():
     return jsonify([s.to_dict() for s in get_all_stocks()])
 
@@ -61,10 +58,9 @@ def get_stocks():
 
 manager.create_api(
     Stock, 
-    methods=['GET', 'POST', 'DELETE'],
+    methods=['GET', 'PUT', 'POST', 'DELETE'],
     preprocessors=dict(
-        GET_SINGLE=[jwt_auth_func], 
-        GET_MANY=[jwt_auth_func],
+        PUT=[jwt_auth_func],
         POST=[jwt_auth_func],
         DELETE=[jwt_auth_func]
     )

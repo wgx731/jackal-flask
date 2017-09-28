@@ -1,9 +1,8 @@
-from flask import render_template, request, jsonify, Response
-from app.utils import get_sample_user, get_all_stocks, \
-        get_all_stocks_as_csv
-from app import app
-from app import manager
-from app.models import Stock
+from flask import render_template, request, jsonify, Response, request
+from app import app, manager
+from app.utils import get_all_stocks, get_all_stocks_as_csv
+from app.models import User, Stock
+from app.auth import jwt_auth_func, jwt_required, http_basic_required
 
 
 def accept_json():
@@ -22,8 +21,9 @@ def accept_csv():
 
 @app.route('/', methods = ['GET'])
 @app.route('/index', methods = ['GET'])
+@http_basic_required
 def index():
-    user = get_sample_user()
+    user = User.query.filter_by(username = request.authorization.username).scalar()
     stocks = get_all_stocks()
     return render_template("index.html",
                            title='Home',
@@ -32,21 +32,25 @@ def index():
 
 # list stocks txt api
 @app.route('/api/stocks.txt', methods = ['GET'])
+@jwt_required()
 def get_stocks_in_txt():
     return Response('\n'.join([str(s) for s in get_all_stocks()]), mimetype='text/plain')
 
 # list stocks csv api
 @app.route('/api/stocks.csv', methods = ['GET'])
+@jwt_required()
 def get_stocks_in_csv():
     return Response(get_all_stocks_as_csv(), mimetype='text/csv')
 
 # list stocks json api
 @app.route('/api/stocks.json', methods = ['GET'])
+@jwt_required()
 def get_stocks_in_json():
     return jsonify([s.to_dict() for s in get_all_stocks()])
 
 # list stocks content negotiation api
 @app.route('/api/stocks', methods = ['GET'])
+@jwt_required()
 def get_stocks():
     if accept_csv():
         return get_stocks_in_csv()
@@ -55,5 +59,14 @@ def get_stocks():
     else:
         return get_stocks_in_txt()
 
-manager.create_api(Stock, methods=['GET', 'POST', 'DELETE'])
+manager.create_api(
+    Stock, 
+    methods=['GET', 'POST', 'DELETE'],
+    preprocessors=dict(
+        GET_SINGLE=[jwt_auth_func], 
+        GET_MANY=[jwt_auth_func],
+        POST=[jwt_auth_func],
+        DELETE=[jwt_auth_func]
+    )
+)
 

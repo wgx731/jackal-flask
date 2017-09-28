@@ -1,6 +1,6 @@
 from datetime import date
 from app import db
-from app.models import Stock
+from app.models import User, Stock
 
 db.create_all()
 
@@ -30,6 +30,11 @@ db.session.add(Stock(
     116.44,
     876800,
     'BABA'
+))
+db.session.add(User(
+    'wgx731',
+    'wgx731@gmail.com',
+    'hackme'
 ))
 db.session.commit()
 

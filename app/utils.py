@@ -3,10 +3,6 @@ import csv
 from app.models import User, Stock
 from app import db
 
-
-def get_sample_user():
-    return User('wgx731')
-
 def get_all_stocks():
     return Stock.query.all()
 

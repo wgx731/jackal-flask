@@ -1,18 +1,28 @@
-from app import db
+from app import db, bcrypt
 
 
-class User:
+class User(db.Model):
     """A User class"""
-    def __init__(self, nickname):
-        self.name = nickname
+    __tablename__ = 'user'
 
-    @property
-    def name(self):
-        return self.__name
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(255), unique=True)
+    email = db.Column(db.String(255))
+    password = db.Column(db.Binary(60))
 
-    @name.setter
-    def name(self, nickname):
-        self.__name = nickname
+    def __init__(self, username, email, password):
+        self.username = username
+        self.email = email
+        self.password = bcrypt.generate_password_hash(password)
+
+    def __repr__(self):
+        return '<User %r>' % self.username
+
+    def __str__(self):
+        return 'User - username {} with email {}'.format(
+            self.username,
+            self.email
+        )
 
 
 class Stock(db.Model):
@@ -66,5 +76,6 @@ class Stock(db.Model):
             self.low,
             self.close,
             self.volume,
-            self.date)
+            self.date
+        )
 

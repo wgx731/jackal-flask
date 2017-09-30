@@ -15,6 +15,8 @@ RUN apk add --no-cache --virtual .build-deps \
 # Add our code
 COPY app /opt/webapp/app
 COPY wsgi.py /opt/webapp/
+COPY create_db.py /opt/webapp/
+COPY drop_db.py /opt/webapp/
 WORKDIR /opt/webapp
 
 # Run the image as a non-root user

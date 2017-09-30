@@ -55,6 +55,7 @@ _NOTE:_ the container will be removed once you quit app using `Ctrl+C`
 * `heroku apps:create <heroku-docker-app-name>` (only run this command if you haven't created `<heroku-docker-app-name>`)
 * `heroku container:push web -a <heroku-docker-app-name>`
 * `heroku open -a <heroku-docker-app-name>`
+* `heroku logs -a <heroku-docker-app-name>`
 
 ### Destory Flask App On Heroku
 

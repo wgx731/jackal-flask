@@ -33,7 +33,7 @@ Jackal Flask - Setup
 
 ### Build Flask App
 
-`docker build -t jackal-flask -f Dockerfile.local .`
+* `docker build -t jackal-flask -f Dockerfile.local .`
 
 ### Run Flask App Test With Coverage
 
@@ -43,7 +43,7 @@ Jackal Flask - Setup
 
 ### Start Flask App Container
 
-`docker run -ti --rm --env PORT=5000 -p 5000:5000 jackal-flask`
+* `docker run -ti --rm --env PORT=5000 -p 5000:5000 jackal-flask`
 
 _NOTE:_ the container will be removed once you quit app using `Ctrl+C`
 
@@ -52,8 +52,10 @@ _NOTE:_ the container will be removed once you quit app using `Ctrl+C`
 * `heroku login`
 * `heroku container:login`
 * `heroku apps --all`
+* `heroku apps:create <heroku-docker-app-name>` (only run this command if you haven't created `<heroku-docker-app-name>`)
 * `heroku container:push web -a <heroku-docker-app-name>`
 * `heroku open -a <heroku-docker-app-name>`
+* `heroku logs -a <heroku-docker-app-name>`
 
 ### Destory Flask App On Heroku
 
@@ -61,15 +63,15 @@ _NOTE:_ the container will be removed once you quit app using `Ctrl+C`
 
 ### Clean Up Docker Images
 
-`docker rmi -f $(docker images --filter "dangling=true" -q --no-trunc)`
-`docker rmi -f jackal-flask`
-`docker rmi -f registry.heroku.com/<heroku-docker-app-name>/web`
+* `docker rmi -f $(docker images --filter "dangling=true" -q --no-trunc)`
+* `docker rmi -f jackal-flask`
+* `docker rmi -f registry.heroku.com/<heroku-docker-app-name>/web`
 
 ## Pipenv User Guide
 
 ### Install Depedencies
 
-`pipenv install --dev`
+* `pipenv install --dev`
 
 ### Run Flask App
 
@@ -80,18 +82,19 @@ _NOTE:_ the container will be removed once you quit app using `Ctrl+C`
 
 ##### Start Flask App
 
-`pipenv run flask run`
+* `pipenv run flask run`
 
 ###  Run Flask App Test With Coverage
 
-`pipenv run coverage run --source=app tests.py`
-`pipenv run coverage report`
-`pipenv run coverage html`
+* `pipenv run coverage run --source=app tests.py`
+* `pipenv run coverage report`
+* `pipenv run coverage html`
 
 ### Deploy Flask App To Heroku
 
 * `heroku login`
 * `heroku apps --all`
+* `heroku apps:create <heroku-normal-app-name>` (only run this command if you haven't created `<heroku-normal-app-name>`)
 * `heroku git:remote -a <heroku-normal-app-name>`
 * `git push -f heroku mvc:master`
 * `heroku open -a <heroku-normal-app-name>`

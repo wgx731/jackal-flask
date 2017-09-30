@@ -51,10 +51,26 @@ class JackalFlaskTest(unittest.TestCase):
             'hackme'
         ))
         db.session.commit()
+        result = self.app.post(
+            '/auth'
+        )
+        self.assertEqual(result.status_code, 400)
+        result, jdata = post_json(
+            self.app, '/auth', {'username': 'wgx731'}
+        )
+        self.assertEqual(result.status_code, 400)
+        result, jdata = post_json(
+            self.app, '/auth', {'password': 'hackme'}
+        )
+        self.assertEqual(result.status_code, 400)
+        result, jdata = post_json(
+            self.app, '/auth', {'username': 'wgx731', 'password': 'wrongpass'}
+        )
+        self.assertEqual(result.status_code, 401)
         result = self.app.get(
             '/index',
             headers = {
-                'Authorization': 'JWT wrongtoken'
+                'Authorization': 'Bearer wrongtoken'
             }
         )
         self.assertEqual(result.status_code, 401)
@@ -171,19 +187,19 @@ class JackalFlaskTest(unittest.TestCase):
         token = jdata['access_token']
         result = self.app.get('/api/stocks', headers={
             'Accept': 'text/csv',
-            'Authorization': 'JWT ' + token
+            'Authorization': 'Bearer ' + token
         })
         self.assertEqual(result.status_code, 200)
         self.assertIn('text/csv', result.headers['Content-Type'])
         result = self.app.get('/api/stocks', headers={
             'Accept': 'text/plain',
-            'Authorization': 'JWT ' + token
+            'Authorization': 'Bearer ' + token
         })
         self.assertEqual(result.status_code, 200)
         self.assertIn('text/plain', result.headers['Content-Type'])
         result = self.app.get('/api/stocks', headers={
             'Accept': 'application/json',
-            'Authorization': 'JWT ' + token
+            'Authorization': 'Bearer ' + token
         })
         self.assertEqual(result.status_code, 200)
         self.assertIn('application/json', result.headers['Content-Type'])

@@ -1,10 +1,12 @@
+import os
 from datetime import datetime
 from functools import wraps
-from flask import request, Response
-from flask_jwt import JWT, jwt_required
+from flask import request, jsonify, Response
+from flask_jwt_extended import JWTManager, jwt_required, create_access_token
 from app import app, bcrypt
 from app.models import User
 
+app.secret_key = os.environ.get('SECRET_KEY', 'please-change-me')
 
 # JWT
 def authenticate(username, password):
@@ -14,28 +16,37 @@ def authenticate(username, password):
     if bcrypt.check_password_hash(user.password, password):
         return user
 
-def identity(payload):
-    return User.query.get(payload['identity']['id'])
+jwt = JWTManager(app)
 
-jwt = JWT(app, authenticate, identity)
+@app.route('/auth', methods=['POST'])
+def auth():
+    if not request.is_json:
+        return jsonify({"msg": "Missing JSON in request"}), 400
 
-@jwt.jwt_payload_handler
-def make_payload(identity):
-    iat = datetime.utcnow()
-    exp = iat + app.config.get('JWT_EXPIRATION_DELTA')
-    nbf = iat + app.config.get('JWT_NOT_BEFORE_DELTA')
-    return {
-        'exp': exp, 
-        'iat': iat,
-        'nbf': nbf, 
-        'identity': {
-            'id': identity.id, 
-            'name': identity.username,
-            'email': identity.email
-        }
+    params = request.get_json()
+    username = params.get('username', None)
+    password = params.get('password', None)
+
+    if not username:
+        return jsonify({"msg": "Missing username parameter"}), 400
+    if not password:
+        return jsonify({"msg": "Missing password parameter"}), 400
+
+    user = authenticate(username, password)
+    if user is None:
+        return jsonify({"msg": "Bad username or password"}), 401
+
+    # Identity can be any data that is json serializable
+    ret = {
+        'access_token': create_access_token(identity={
+            'id': user.id,
+            'name': user.username,
+            'email': user.email
+        })
     }
+    return jsonify(ret), 200
 
-@jwt_required()
+@jwt_required
 def jwt_auth_func(**kw):
     pass
 

@@ -47,7 +47,7 @@ def get_stocks_in_json():
 
 # list stocks content negotiation api
 @app.route('/api/stocks', methods = ['GET'])
-@jwt_required()
+@jwt_required
 def get_stocks():
     if accept_csv():
         return get_stocks_in_csv()

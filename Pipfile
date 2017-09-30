@@ -4,19 +4,17 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-
 flask = "*"
 "flask-sqlalchemy" = "*"
 gunicorn = "*"
 "psycopg2" = "*"
-"flask-jwt" = "*"
+"flask-jwt-extended" = "*"
 "flask-bcrypt" = "*"
 "flask-restless" = "*"
 "flask-cors" = "*"
 
 [dev-packages]
 coverage = "*"
-
 
 [requires]
 python_version = "3.6"

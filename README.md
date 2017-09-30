@@ -33,17 +33,17 @@ Jackal Flask - Setup
 
 ### Build Flask App
 
-`docker build -t jackal-flask -f Dockerfile.local .`
+* `docker build -t jackal-flask -f Dockerfile.local .`
 
 ### Database Utils
 
-##### Create Flask App Local Sqlite Database (One Time Setup)
-
-`docker run -ti --rm -v $PWD/db:/opt/webapp/db jackal-flask python create_db.py`
-
 ##### Drop Flask App Local Sqlite Database (One Time Clean Up)
 
-`docker run -ti --rm -v $PWD/db:/opt/webapp/db jackal-flask python drop_db.py`
+* `docker run -ti --rm -v $PWD/db:/opt/webapp/db jackal-flask python drop_db.py`
+
+##### Create Flask App Local Sqlite Database (One Time Setup)
+
+* `docker run -ti --rm -v $PWD/db:/opt/webapp/db jackal-flask python create_db.py`
 
 ### Run Flask App Test With Coverage
 
@@ -53,31 +53,35 @@ Jackal Flask - Setup
 
 ### Start Flask App Container
 
-`docker run -ti --rm -v $PWD/db:/opt/webapp/db --env PORT=5000 -p 5000:5000 jackal-flask`
+* `docker run -ti --rm -v $PWD/db:/opt/webapp/db --env PORT=5000 -p 5000:5000 jackal-flask`
 
-_NOTE:_ the container will be removed once you quit app using `Ctrl+C`
-
-### Create Heroku Postgresql Addon (One Time Setup)
-
-* `heroku login`
-* `heroku addons:create heroku-postgresql:hobby-dev -a <heroku-docker-app-name>` or `heroku addons:attach <heroku-app-with-db>::DATABASE -a <heroku-docker-app-name>`
-* `heroku pg:promote <heroku-database> -a <heroku-docker-app-name>`
-
-### Create Heroku Postgresql Database (One Time Setup)
-
-* `heroku run python create_db.py`
-
-### Drop Heroku Postgresql Database (One Time Clean up)
-
-* `heroku run python drop_db.py`
+_NOTE:_ stop app using `Ctrl+C`, container will be removed once app is stopped
 
 ### Deploy Flask App To Heroku
 
 * `heroku login`
 * `heroku container:login`
 * `heroku apps --all`
+* `heroku apps:create <heroku-docker-app-name>` (only run this command if you haven't created `<heroku-docker-app-name>`)
 * `heroku container:push web -a <heroku-docker-app-name>`
 * `heroku open -a <heroku-docker-app-name>`
+* `heroku logs -a <heroku-docker-app-name>`
+
+### Create Heroku Postgresql Addon (One Time Setup)
+
+* `heroku login`
+* `heroku addons:create heroku-postgresql:hobby-dev -a <heroku-docker-app-name>` (only run this command if you want to create new postgresql)
+* `heroku addons:attach <heroku-app-with-db>::DATABASE -a <heroku-docker-app-name>` (only run this command if you want to use an existing postgresql)
+* `heroku pg:promote <heroku-database> -a <heroku-docker-app-name>`
+
+### Drop Heroku Postgresql Database (One Time Clean Up)
+
+* `heroku run python drop_db.py -a <heroku-docker-app-name>`
+
+### Create Heroku Postgresql Database (One Time Setup)
+
+* `heroku run python create_db.py -a <heroku-docker-app-name>`
+
 
 ### Destory Flask App On Heroku
 
@@ -85,65 +89,67 @@ _NOTE:_ the container will be removed once you quit app using `Ctrl+C`
 
 ### Clean Up Docker Images
 
-`docker rmi -f $(docker images --filter "dangling=true" -q --no-trunc)`
-`docker rmi -f jackal-flask`
-`docker rmi -f registry.heroku.com/<heroku-docker-app-name>/web`
+* `docker rmi -f $(docker images --filter "dangling=true" -q --no-trunc)`
+* `docker rmi -f jackal-flask`
+* `docker rmi -f registry.heroku.com/<heroku-docker-app-name>/web`
 
 ## Pipenv User Guide
 
 ### Install Depedencies
 
-`pipenv install --dev`
+* `pipenv install --dev`
 
 ### Database Utils
 
-##### Create Flask App Local Sqlite Database (One Time Setup)
-
-`pipenv run python create_db.py`
-
 ##### Drop Flask App Local Sqlite Database (One Time Clean Up)
 
-`pipenv run python drop_db.py`
+* `pipenv run python drop_db.py`
+
+##### Create Flask App Local Sqlite Database (One Time Setup)
+
+* `pipenv run python create_db.py`
 
 ### Run Flask App
 
 ##### Setup Environment Variable
 
-* Mac / Linux: `export FLASK_APP=app_local.py`
-* Windows: `set FLASK_APP=app_local.py`
+* Mac / Linux / Git Bash: `export FLASK_APP=app_local.py`
+* Windows CMD / Git CMD: `set FLASK_APP=app_local.py`
 
 ##### Start Flask App
 
-`pipenv run flask run`
+* `pipenv run flask run`
 
 ###  Run Flask App Test With Coverage
 
-`pipenv run coverage run --source=app tests.py`
-`pipenv run coverage report`
-`pipenv run coverage html`
-
-### Create Heroku Postgresql Addon (One Time Setup)
-
-* `heroku login`
-* `heroku addons:create heroku-postgresql:hobby-dev -a <heroku-normal-app-name>` or `heroku addons:attach <heroku-app-with-db>::DATABASE -a <heroku-normal-app-name>`
-* `heroku pg:promote <heroku-database> -a <heroku-normal-app-name>`
-
-### Create Heroku Postgresql Database (One Time Setup)
-
-* `heroku run python create_db.py`
-
-### Drop Heroku Postgresql Database (One Time Clean up)
-
-* `heroku run python drop_db.py`
+* `pipenv run coverage run --source=app tests.py`
+* `pipenv run coverage report`
+* `pipenv run coverage html`
 
 ### Deploy Flask App To Heroku
 
 * `heroku login`
 * `heroku apps --all`
 * `heroku git:remote -a <heroku-normal-app-name>`
+* `heroku apps:create <heroku-normal-app-name>` (only run this command if you haven't created `<heroku-normal-app-name>`)
 * `git push -f heroku auth:master`
 * `heroku open -a <heroku-normal-app-name>`
 * `heroku logs -a <heroku-normal-app-name>`
+
+### Create Heroku Postgresql Addon (One Time Setup)
+
+* `heroku login`
+* `heroku addons:create heroku-postgresql:hobby-dev -a <heroku-normal-app-name>` (only run this command if you want to create new postgresql)
+* `heroku addons:attach <heroku-app-with-db>::DATABASE -a <heroku-normal-app-name>` (only run this command if you want to use an existing postgresql)
+* `heroku pg:promote <heroku-database> -a <heroku-normal-app-name>`
+
+### Drop Heroku Postgresql Database (One Time Clean Up)
+
+* `heroku run python drop_db.py -a <heroku-normal-app-name>`
+
+### Create Heroku Postgresql Database (One Time Setup)
+
+* `heroku run python create_db.py -a <heroku-normal-app-name>`
 
 ## Contributing
 

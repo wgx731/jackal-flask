@@ -70,6 +70,7 @@ _NOTE:_ stop app using `Ctrl+C`, container will be removed once app is stopped
 ### Create Heroku Postgresql Addon (One Time Setup)
 
 * `heroku login`
+* `heroku addons -a <heroku-docker-app-name>`
 * `heroku addons:create heroku-postgresql:hobby-dev -a <heroku-docker-app-name>` (only run this command if you want to create new postgresql)
 * `heroku addons:attach <heroku-app-with-db>::DATABASE -a <heroku-docker-app-name>` (only run this command if you want to use an existing postgresql)
 * `heroku pg:promote <heroku-database> -a <heroku-docker-app-name>`
@@ -138,6 +139,7 @@ _NOTE:_ stop app using `Ctrl+C`, container will be removed once app is stopped
 ### Create Heroku Postgresql Addon (One Time Setup)
 
 * `heroku login`
+* `heroku addons -a <heroku-normal-app-name>`
 * `heroku addons:create heroku-postgresql:hobby-dev -a <heroku-normal-app-name>` (only run this command if you want to create new postgresql)
 * `heroku addons:attach <heroku-app-with-db>::DATABASE -a <heroku-normal-app-name>` (only run this command if you want to use an existing postgresql)
 * `heroku pg:promote <heroku-database> -a <heroku-normal-app-name>`

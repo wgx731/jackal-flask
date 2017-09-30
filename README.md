@@ -45,7 +45,7 @@ Jackal Flask - Setup
 
 * `docker run -ti --rm --env PORT=5000 -p 5000:5000 jackal-flask`
 
-_NOTE:_ the container will be removed once you quit app using `Ctrl+C`
+_NOTE:_ stop app using `Ctrl+C`, container will be removed once app is stopped
 
 ### Deploy Flask App To Heroku
 
@@ -77,12 +77,14 @@ _NOTE:_ the container will be removed once you quit app using `Ctrl+C`
 
 ##### Setup Environment Variable
 
-* Mac / Linux: `export FLASK_APP=app_local.py`
-* Windows: `set FLASK_APP=app_local.py`
+* Mac / Linux / Git Bash: `export FLASK_APP=app_local.py`
+* Windows CMD / Git CMD: `set FLASK_APP=app_local.py`
 
 ##### Start Flask App
 
 * `pipenv run flask run`
+
+_NOTE:_ stop app using `Ctrl+C`, use `Git Bash` in Windows
 
 ###  Run Flask App Test With Coverage
 

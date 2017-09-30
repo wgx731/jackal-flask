@@ -37,13 +37,13 @@ Jackal Flask - Setup
 
 ### Database Utils
 
-##### Create Flask App Local Sqlite Database (One Time Setup)
-
-* `docker run -ti --rm -v $PWD/db:/opt/webapp/db jackal-flask python create_db.py`
-
 ##### Drop Flask App Local Sqlite Database (One Time Clean Up)
 
 * `docker run -ti --rm -v $PWD/db:/opt/webapp/db jackal-flask python drop_db.py`
+
+##### Create Flask App Local Sqlite Database (One Time Setup)
+
+* `docker run -ti --rm -v $PWD/db:/opt/webapp/db jackal-flask python create_db.py`
 
 ### Run Flask App Test With Coverage
 
@@ -64,13 +64,13 @@ _NOTE:_ stop app using `Ctrl+C`, container will be removed once app is stopped
 * `heroku addons:attach <heroku-app-with-db>::DATABASE -a <heroku-docker-app-name>` (only run this command if you want to use an existing postgresql)
 * `heroku pg:promote <heroku-database> -a <heroku-docker-app-name>`
 
-### Create Heroku Postgresql Database (One Time Setup)
-
-* `heroku run python create_db.py`
-
 ### Drop Heroku Postgresql Database (One Time Clean Up)
 
 * `heroku run python drop_db.py`
+
+### Create Heroku Postgresql Database (One Time Setup)
+
+* `heroku run python create_db.py`
 
 ### Deploy Flask App To Heroku
 
@@ -99,13 +99,13 @@ _NOTE:_ stop app using `Ctrl+C`, container will be removed once app is stopped
 
 ### Database Utils
 
-##### Create Flask App Local Sqlite Database (One Time Setup)
-
-* `pipenv run python create_db.py`
-
 ##### Drop Flask App Local Sqlite Database (One Time Clean Up)
 
 * `pipenv run python drop_db.py`
+
+##### Create Flask App Local Sqlite Database (One Time Setup)
+
+* `pipenv run python create_db.py`
 
 ### Run Flask App
 
@@ -131,13 +131,13 @@ _NOTE:_ stop app using `Ctrl+C`, container will be removed once app is stopped
 * `heroku addons:attach <heroku-app-with-db>::DATABASE -a <heroku-docker-app-name>` (only run this command if you want to use an existing postgresql)
 * `heroku pg:promote <heroku-database> -a <heroku-docker-app-name>`
 
-### Create Heroku Postgresql Database (One Time Setup)
-
-* `heroku run python create_db.py`
-
 ### Drop Heroku Postgresql Database (One Time Clean Up)
 
 * `heroku run python drop_db.py`
+
+### Create Heroku Postgresql Database (One Time Setup)
+
+* `heroku run python create_db.py`
 
 ### Deploy Flask App To Heroku
 

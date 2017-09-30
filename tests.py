@@ -1,9 +1,16 @@
 import os
+import base64
+import json
 from datetime import date
 import unittest
 from flask import url_for
 from app import app, db, default_db_path, default_db_uri
-from app.models import Stock
+from app.models import User, Stock
+
+def post_json(client, url, data):
+    data = json.dumps(data)
+    resp = client.post(url, headers={'Content-Type': 'application/json'}, data=data)
+    return resp, json.loads(resp.data)
 
 class JackalFlaskTest(unittest.TestCase):
 
@@ -21,12 +28,29 @@ class JackalFlaskTest(unittest.TestCase):
 
     def test_index(self):
         """Assert that user successfully lands on index page"""
-        result = self.app.get('/index')
+        db.session.add(User(
+            'wgx731',
+            'wgx731@gmail.com',
+            'hackme'
+        ))
+        db.session.commit()
+        result = self.app.get(
+            '/index',
+            headers = {
+                'Authorization': 'Basic ' + 
+                base64.b64encode(bytes('wgx731:hackme', 'ascii')).decode('ascii')
+            }
+        )
         self.assertEqual(result.status_code, 200)
         self.assertIn(b'wgx731', result.data)
 
     def test_home(self):
         """Assert that user successfully lands on home page"""
+        db.session.add(User(
+            'wgx731',
+            'wgx731@gmail.com',
+            'hackme'
+        ))
         db.session.add(Stock(
             date(1985, 11, 1),
             115.48,
@@ -37,7 +61,13 @@ class JackalFlaskTest(unittest.TestCase):
             'GOOGL'
         ))
         db.session.commit()
-        result = self.app.get('/')
+        result = self.app.get(
+            '/',
+            headers = {
+                'Authorization': 'Basic ' + 
+                base64.b64encode(bytes('wgx731:hackme', 'ascii')).decode('ascii')
+            }
+        )
         self.assertEqual(result.status_code, 200)
         self.assertIn(b'GOOGL', result.data)
 
@@ -69,6 +99,7 @@ class JackalFlaskTest(unittest.TestCase):
             900900,
             'TXT'
         ))
+        db.session.commit()
         result = self.app.get('/api/stocks.txt')
         self.assertEqual(result.status_code, 200)
         self.assertIn('text/plain', result.headers['Content-Type'])
@@ -85,6 +116,7 @@ class JackalFlaskTest(unittest.TestCase):
             900900,
             'JSON'
         ))
+        db.session.commit()
         result = self.app.get('/api/stocks.json')
         self.assertEqual(result.status_code, 200)
         self.assertIn('application/json', result.headers['Content-Type'])
@@ -92,13 +124,33 @@ class JackalFlaskTest(unittest.TestCase):
 
     def test_stocks(self):
         """Assert that stock json api returns json result"""
-        result = self.app.get('/api/stocks', headers={'Accept': 'text/csv'})
+        user = User(
+            'wgx731',
+            'wgx731@gmail.com',
+            'hackme'
+        )
+        db.session.add(user)
+        db.session.commit()
+        esp, jdata = post_json(
+            self.app, '/auth', {'username': user.username, 'password': 'hackme'}
+        )
+        token = jdata['access_token']
+        result = self.app.get('/api/stocks', headers={
+            'Accept': 'text/csv',
+            'Authorization': 'JWT ' + token
+        })
         self.assertEqual(result.status_code, 200)
         self.assertIn('text/csv', result.headers['Content-Type'])
-        result = self.app.get('/api/stocks', headers={'Accept': 'text/plain'})
+        result = self.app.get('/api/stocks', headers={
+            'Accept': 'text/plain',
+            'Authorization': 'JWT ' + token
+        })
         self.assertEqual(result.status_code, 200)
         self.assertIn('text/plain', result.headers['Content-Type'])
-        result = self.app.get('/api/stocks', headers={'Accept': 'application/json'})
+        result = self.app.get('/api/stocks', headers={
+            'Accept': 'application/json',
+            'Authorization': 'JWT ' + token
+        })
         self.assertEqual(result.status_code, 200)
         self.assertIn('application/json', result.headers['Content-Type'])
 

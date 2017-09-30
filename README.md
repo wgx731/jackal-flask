@@ -120,6 +120,8 @@ _NOTE:_ stop app using `Ctrl+C`, container will be removed once app is stopped
 
 * `pipenv run flask run`
 
+_NOTE:_ stop app using `Ctrl+C`, use `Git Bash` in Windows
+
 ###  Run Flask App Test With Coverage
 
 * `pipenv run coverage run --source=app tests.py`

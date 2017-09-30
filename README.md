@@ -57,6 +57,16 @@ Jackal Flask - Setup
 
 _NOTE:_ stop app using `Ctrl+C`, container will be removed once app is stopped
 
+### Deploy Flask App To Heroku
+
+* `heroku login`
+* `heroku container:login`
+* `heroku apps --all`
+* `heroku apps:create <heroku-docker-app-name>` (only run this command if you haven't created `<heroku-docker-app-name>`)
+* `heroku container:push web -a <heroku-docker-app-name>`
+* `heroku open -a <heroku-docker-app-name>`
+* `heroku logs -a <heroku-docker-app-name>`
+
 ### Create Heroku Postgresql Addon (One Time Setup)
 
 * `heroku login`
@@ -66,20 +76,11 @@ _NOTE:_ stop app using `Ctrl+C`, container will be removed once app is stopped
 
 ### Drop Heroku Postgresql Database (One Time Clean Up)
 
-* `heroku run python drop_db.py`
+* `heroku run python drop_db.py -a <heroku-docker-app-name>`
 
 ### Create Heroku Postgresql Database (One Time Setup)
 
-* `heroku run python create_db.py`
-
-### Deploy Flask App To Heroku
-
-* `heroku login`
-* `heroku container:login`
-* `heroku apps --all`
-* `heroku apps:create <heroku-docker-app-name>` (only run this command if you haven't created `<heroku-docker-app-name>`)
-* `heroku container:push web -a <heroku-docker-app-name>`
-* `heroku open -a <heroku-docker-app-name>`
+* `heroku run python create_db.py -a <heroku-docker-app-name>`
 
 ### Destory Flask App On Heroku
 
@@ -124,21 +125,6 @@ _NOTE:_ stop app using `Ctrl+C`, container will be removed once app is stopped
 * `pipenv run coverage report`
 * `pipenv run coverage html`
 
-### Create Heroku Postgresql Addon (One Time Setup)
-
-* `heroku login`
-* `heroku addons:create heroku-postgresql:hobby-dev -a <heroku-docker-app-name>` (only run this command if you want to create new postgresql)
-* `heroku addons:attach <heroku-app-with-db>::DATABASE -a <heroku-docker-app-name>` (only run this command if you want to use an existing postgresql)
-* `heroku pg:promote <heroku-database> -a <heroku-docker-app-name>`
-
-### Drop Heroku Postgresql Database (One Time Clean Up)
-
-* `heroku run python drop_db.py`
-
-### Create Heroku Postgresql Database (One Time Setup)
-
-* `heroku run python create_db.py`
-
 ### Deploy Flask App To Heroku
 
 * `heroku login`
@@ -148,6 +134,21 @@ _NOTE:_ stop app using `Ctrl+C`, container will be removed once app is stopped
 * `git push -f heroku persistent:master`
 * `heroku open -a <heroku-normal-app-name>`
 * `heroku logs -a <heroku-normal-app-name>`
+
+### Create Heroku Postgresql Addon (One Time Setup)
+
+* `heroku login`
+* `heroku addons:create heroku-postgresql:hobby-dev -a <heroku-normal-app-name>` (only run this command if you want to create new postgresql)
+* `heroku addons:attach <heroku-app-with-db>::DATABASE -a <heroku-normal-app-name>` (only run this command if you want to use an existing postgresql)
+* `heroku pg:promote <heroku-database> -a <heroku-normal-app-name>`
+
+### Drop Heroku Postgresql Database (One Time Clean Up)
+
+* `heroku run python drop_db.py -a <heroku-normal-app-name>`
+
+### Create Heroku Postgresql Database (One Time Setup)
+
+* `heroku run python create_db.py -a <heroku-normal-app-name>`
 
 ## Contributing
 

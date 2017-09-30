@@ -26,6 +26,39 @@ class JackalFlaskTest(unittest.TestCase):
         os.unlink(default_db_path.replace("local", "test"))
         del self.app
 
+    def test_basic_auth_wrong(self):
+        db.session.add(User(
+            'wgx731',
+            'wgx731@gmail.com',
+            'hackme'
+        ))
+        db.session.commit()
+        result = self.app.get('/index')
+        self.assertEqual(result.status_code, 401)
+        result = self.app.get(
+            '/index',
+            headers = {
+                'Authorization': 'Basic ' + 
+                base64.b64encode(bytes('wgx731:wrongpass', 'ascii')).decode('ascii')
+            }
+        )
+        self.assertEqual(result.status_code, 401)
+
+    def test_jwt_auth_wrong(self):
+        db.session.add(User(
+            'wgx731',
+            'wgx731@gmail.com',
+            'hackme'
+        ))
+        db.session.commit()
+        result = self.app.get(
+            '/index',
+            headers = {
+                'Authorization': 'JWT wrongtoken'
+            }
+        )
+        self.assertEqual(result.status_code, 401)
+
     def test_index(self):
         """Assert that user successfully lands on index page"""
         db.session.add(User(
@@ -129,6 +162,7 @@ class JackalFlaskTest(unittest.TestCase):
             'wgx731@gmail.com',
             'hackme'
         )
+        self.assertIn('wgx731@gmail.com', str(user))
         db.session.add(user)
         db.session.commit()
         esp, jdata = post_json(

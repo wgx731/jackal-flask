@@ -17,6 +17,8 @@ exclude_lines =
     raise NotImplementedError
 
     # Don't complain if non-runnable code isn't run:
+    jwt_auth_func
+    pass
     if 0:
     if __name__ == .__main__.:
 

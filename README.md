@@ -52,6 +52,7 @@ _NOTE:_ the container will be removed once you quit app using `Ctrl+C`
 * `heroku login`
 * `heroku container:login`
 * `heroku apps --all`
+* `heroku apps:create <heroku-docker-app-name>` (only run this command if you haven't created `<heroku-docker-app-name>`)
 * `heroku container:push web -a <heroku-docker-app-name>`
 * `heroku open -a <heroku-docker-app-name>`
 
@@ -92,7 +93,8 @@ _NOTE:_ the container will be removed once you quit app using `Ctrl+C`
 
 * `heroku login`
 * `heroku apps --all`
-* `heroku git:remote -a <heroku-normal-app-name>`
+* `heroku apps:create <heroku-normal-app-name>` (only run this command if you haven't created `<heroku-normal-app-name>`)
+* `heroku git:remote -a <heroku-normal-app-name>` (only run this command if you haven't linked your local repo with heroku repo)
 * `git push -f heroku setup:master`
 * `heroku open -a <heroku-normal-app-name>`
 * `heroku logs -a <heroku-normal-app-name>`

@@ -9,6 +9,7 @@ RUN apk add --no-cache --virtual .build-deps \
     postgresql-dev \
     gcc \
     musl-dev \
+    libffi-dev \
     && pip3 install --no-cache-dir -q -r /tmp/requirements.txt \
     && rm /tmp/requirements.txt
 

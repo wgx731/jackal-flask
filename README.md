@@ -94,7 +94,7 @@ _NOTE:_ the container will be removed once you quit app using `Ctrl+C`
 * `heroku login`
 * `heroku apps --all`
 * `heroku apps:create <heroku-normal-app-name>` (only run this command if you haven't created `<heroku-normal-app-name>`)
-* `heroku git:remote -a <heroku-normal-app-name>` (only run this command if you haven't linked your local repo with heroku repo)
+* `heroku git:remote -a <heroku-normal-app-name>`
 * `git push -f heroku setup:master`
 * `heroku open -a <heroku-normal-app-name>`
 * `heroku logs -a <heroku-normal-app-name>`

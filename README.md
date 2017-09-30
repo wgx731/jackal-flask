@@ -70,7 +70,7 @@ _NOTE:_ the container will be removed once you quit app using `Ctrl+C`
 
 ### Install Depedencies
 
-`pipenv install --dev`
+* `pipenv install --dev`
 
 ### Run Flask App
 
@@ -81,13 +81,13 @@ _NOTE:_ the container will be removed once you quit app using `Ctrl+C`
 
 ##### Start Flask App
 
-`pipenv run flask run`
+* `pipenv run flask run`
 
 ###  Run Flask App Test With Coverage
 
-`pipenv run coverage run --source=app tests.py`
-`pipenv run coverage report`
-`pipenv run coverage html`
+* `pipenv run coverage run --source=app tests.py`
+* `pipenv run coverage report`
+* `pipenv run coverage html`
 
 ### Deploy Flask App To Heroku
 

@@ -82,6 +82,10 @@ _NOTE:_ stop app using `Ctrl+C`, container will be removed once app is stopped
 
 * `heroku run python create_db.py -a <heroku-docker-app-name>`
 
+### Setup JWT secret
+
+* `heroku config -a <heroku-docker-app-name>`
+* `heroku config:set SECRET_KEY=<secret-key-for-heroku-docker-app> -a <heroku-docker-app-name>`
 
 ### Destory Flask App On Heroku
 
@@ -152,6 +156,11 @@ _NOTE:_ stop app using `Ctrl+C`, use `Git Bash` in Windows
 ### Create Heroku Postgresql Database (One Time Setup)
 
 * `heroku run python create_db.py -a <heroku-normal-app-name>`
+
+### Setup JWT secret
+
+* `heroku config -a <heroku-normal-app-name>`
+* `heroku config:set SECRET_KEY=<secret-key-for-heroku-normal-app> -a <heroku-normal-app-name>`
 
 ## Contributing
 

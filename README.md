@@ -33,7 +33,7 @@ Jackal Flask - Setup
 
 ### Build Flask App
 
-`docker build -t jackal-flask -f Dockerfile.local .`
+* `docker build -t jackal-flask -f Dockerfile.local .`
 
 ### Run Flask App Test With Coverage
 
@@ -43,7 +43,7 @@ Jackal Flask - Setup
 
 ### Start Flask App Container
 
-`docker run -ti --rm --env PORT=5000 -p 5000:5000 jackal-flask`
+* `docker run -ti --rm --env PORT=5000 -p 5000:5000 jackal-flask`
 
 _NOTE:_ the container will be removed once you quit app using `Ctrl+C`
 

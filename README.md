@@ -62,9 +62,9 @@ _NOTE:_ the container will be removed once you quit app using `Ctrl+C`
 
 ### Clean Up Docker Images
 
-`docker rmi -f $(docker images --filter "dangling=true" -q --no-trunc)`
-`docker rmi -f jackal-flask`
-`docker rmi -f registry.heroku.com/<heroku-docker-app-name>/web`
+* `docker rmi -f $(docker images --filter "dangling=true" -q --no-trunc)`
+* `docker rmi -f jackal-flask`
+* `docker rmi -f registry.heroku.com/<heroku-docker-app-name>/web`
 
 ## Pipenv User Guide
 

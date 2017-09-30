@@ -12,6 +12,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', default_db_uri)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'please-change-me')
+app.config['JWT_AUTH_USERNAME_KEY'] = os.environ.get('JWT_AUTH_USERNAME_KEY', 'username')
 
 cors = flask_cors.CORS(app, resources={r"/api/*": {"origins": "*"}})
 db = flask_sqlalchemy.SQLAlchemy(app)

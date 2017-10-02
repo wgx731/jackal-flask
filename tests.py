@@ -19,29 +19,45 @@ def post_json(client, url, data):
 
 class JackalFlaskTest(unittest.TestCase):
 
-    def setUp(self):
+    @classmethod
+    def setUpClass(cls):
         if 'sqlite' in app.config['SQLALCHEMY_DATABASE_URI']:
             app.config['SQLALCHEMY_DATABASE_URI'] = default_db_uri.replace(
                 "local", "test"
             )
-        app.testing = True
-        self.app = app.test_client()
         with app.app_context():
             db.create_all()
-
-    def tearDown(self):
-        db.drop_all()
-        if 'sqlite' in app.config['SQLALCHEMY_DATABASE_URI']:
-            os.unlink(default_db_path.replace("local", "test"))
-        del self.app
-
-    def test_basic_auth_wrong(self):
         db.session.add(User(
             'wgx731',
             'wgx731@gmail.com',
             'hackme'
         ))
+        db.session.add(Stock(
+            date(1985, 11, 1),
+            115.48,
+            116.68,
+            115.48,
+            116.28,
+            900900,
+            'GOOGL'
+        ))
         db.session.commit()
+
+    @classmethod
+    def tearDownClass(cls):
+        with app.app_context():
+            db.drop_all()
+        if 'sqlite' in app.config['SQLALCHEMY_DATABASE_URI']:
+            os.unlink(default_db_path.replace("local", "test"))
+
+    def setUp(self):
+        app.testing = True
+        self.app = app.test_client()
+
+    def tearDown(self):
+        del self.app
+
+    def test_basic_auth_wrong(self):
         result = self.app.get('/index')
         self.assertEqual(result.status_code, 401)
         result = self.app.get(
@@ -56,12 +72,6 @@ class JackalFlaskTest(unittest.TestCase):
         self.assertEqual(result.status_code, 401)
 
     def test_jwt_auth_wrong(self):
-        db.session.add(User(
-            'wgx731',
-            'wgx731@gmail.com',
-            'hackme'
-        ))
-        db.session.commit()
         result = self.app.post(
             '/auth'
         )
@@ -88,12 +98,6 @@ class JackalFlaskTest(unittest.TestCase):
 
     def test_index(self):
         """Assert that user successfully lands on index page"""
-        db.session.add(User(
-            'wgx731',
-            'wgx731@gmail.com',
-            'hackme'
-        ))
-        db.session.commit()
         result = self.app.get(
             '/index',
             headers={
@@ -108,21 +112,6 @@ class JackalFlaskTest(unittest.TestCase):
 
     def test_home(self):
         """Assert that user successfully lands on home page"""
-        db.session.add(User(
-            'wgx731',
-            'wgx731@gmail.com',
-            'hackme'
-        ))
-        db.session.add(Stock(
-            date(1985, 11, 1),
-            115.48,
-            116.68,
-            115.48,
-            116.28,
-            900900,
-            'GOOGL'
-        ))
-        db.session.commit()
         result = self.app.get(
             '/',
             headers={
@@ -138,12 +127,6 @@ class JackalFlaskTest(unittest.TestCase):
 
     def test_graph(self):
         """Assert that user successfully lands on graph page"""
-        db.session.add(User(
-            'wgx731',
-            'wgx731@gmail.com',
-            'hackme'
-        ))
-        db.session.commit()
         result = self.app.get(
             '/graph',
             headers={
@@ -158,54 +141,24 @@ class JackalFlaskTest(unittest.TestCase):
 
     def test_stocks_csv(self):
         """Assert that stock csv api returns csv result"""
-        db.session.add(Stock(
-            date(1985, 11, 1),
-            115.48,
-            116.68,
-            115.48,
-            116.28,
-            900900,
-            'CSV'
-        ))
-        db.session.commit()
         result = self.app.get('/api/stocks.csv')
         self.assertEqual(result.status_code, 200)
         self.assertIn('text/csv', result.headers['Content-Type'])
-        self.assertIn(b'CSV', result.data)
+        self.assertIn(b'GOOGL', result.data)
 
     def test_stocks_txt(self):
         """Assert that stock txt api returns txt result"""
-        db.session.add(Stock(
-            date(1985, 11, 1),
-            115.48,
-            116.68,
-            115.48,
-            116.28,
-            900900,
-            'TXT'
-        ))
-        db.session.commit()
         result = self.app.get('/api/stocks.txt')
         self.assertEqual(result.status_code, 200)
         self.assertIn('text/plain', result.headers['Content-Type'])
-        self.assertIn(b'TXT', result.data)
+        self.assertIn(b'GOOGL', result.data)
 
     def test_stocks_json(self):
         """Assert that stock json api returns json result"""
-        db.session.add(Stock(
-            date(1985, 11, 1),
-            115.48,
-            116.68,
-            115.48,
-            116.28,
-            900900,
-            'JSON'
-        ))
-        db.session.commit()
         result = self.app.get('/api/stocks.json')
         self.assertEqual(result.status_code, 200)
         self.assertIn('application/json', result.headers['Content-Type'])
-        self.assertIn(b'JSON', result.data)
+        self.assertIn(b'GOOGL', result.data)
 
     def test_stocks(self):
         """Assert that stock json api returns json result"""
@@ -215,8 +168,6 @@ class JackalFlaskTest(unittest.TestCase):
             'hackme'
         )
         self.assertIn('wgx731@gmail.com', str(user))
-        db.session.add(user)
-        db.session.commit()
         esp, jdata = post_json(
             self.app, '/auth', {
                 'username': user.username,

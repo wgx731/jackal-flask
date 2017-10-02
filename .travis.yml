@@ -1,13 +1,17 @@
 language: python
+env:
+    - DATABASE_URI=postgresql://localhost/travis_ci_test
+services:
+    - postgresql
 branches:
     only: final
 python:
     - '3.6'
-    - '3.6-dev'
-    - '3.7-dev'
-    - 'nightly'
 install:
     - pip install -r requirements-travis.txt
+before_script:
+    - psql -c 'create database travis_ci_test;' -U postgres
+    - python create_db.py
 script:
     - coverage run --source=app tests.py
 deploy:

@@ -138,7 +138,7 @@ _NOTE:_ stop app using `Ctrl+C`, use `Git Bash` in Windows
 * `heroku apps --all`
 * `heroku git:remote -a <heroku-normal-app-name>`
 * `heroku apps:create <heroku-normal-app-name>` (only run this command if you haven't created `<heroku-normal-app-name>`)
-* `git push -f heroku auth:master`
+* `git push -f heroku final:master`
 * `heroku open -a <heroku-normal-app-name>`
 * `heroku logs -a <heroku-normal-app-name>`
 

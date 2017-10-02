@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row column">
+    <h2 class="callout alert">Error 500</h2>
+    {% if g.sentry_event_id %}
+        <p class="lead">The error identifier is {{ g.sentry_event_id }}</p>
+    {% endif %}
+</div>
+{% endblock %}
+{% block addjs %}
+<!-- Sentry JS SDK 2.1.+ required -->
+<script src="//cdn.ravenjs.com/2.3.0/raven.min.js"></script>
+
+{% if event_id %}
+<script>
+Raven.showReportDialog({
+    eventId: '{{ event_id }}',
+    dsn: '{{ public_dsn }}'
+});
+</script>
+{% endif %}
+{% endblock %}

@@ -1,4 +1,5 @@
 from flask import Flask
+from raven.contrib.flask import Sentry
 import flask_restless
 import flask_sqlalchemy
 import flask_bcrypt
@@ -13,10 +14,15 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
     'DATABASE_URL', default_db_uri
 )
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.gtag_tracking_id = os.environ.get(
+    'GTAG_TRACKING_ID',
+    'your-google-tracking-id'
+)
 
 cors = flask_cors.CORS(app, resources={r"/api/*": {"origins": "*"}})
 db = flask_sqlalchemy.SQLAlchemy(app)
 manager = flask_restless.APIManager(app, flask_sqlalchemy_db=db)
 bcrypt = flask_bcrypt.Bcrypt(app)
+sentry = Sentry(app)
 
 from app import models, auth, views

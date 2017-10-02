@@ -4,6 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+
 flask = "*"
 "flask-sqlalchemy" = "*"
 gunicorn = "*"
@@ -12,10 +13,10 @@ gunicorn = "*"
 "flask-bcrypt" = "*"
 "flask-restless" = "*"
 "flask-cors" = "*"
+raven = {extras = ["flask"]}
 
 [dev-packages]
 coverage = "*"
 
 [requires]
 python_version = "3.6"
-

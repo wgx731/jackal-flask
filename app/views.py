@@ -1,5 +1,5 @@
-from flask import render_template, jsonify, Response, request
-from app import app, manager
+from flask import render_template, jsonify, Response, request, g
+from app import app, manager, sentry
 from app.utils import get_all_stocks, get_all_stocks_with_paging,\
         get_all_stocks_as_csv
 from app.models import User, Stock
@@ -22,6 +22,15 @@ def accept_csv():
         request.accept_mimetypes['text/plain']
 
 
+@app.errorhandler(500)
+def internal_server_error(error):
+    return render_template(
+        '500.html',
+        event_id=g.sentry_event_id,
+        public_dsn=sentry.client.get_public_dsn('https')
+    )
+
+
 @app.route('/', methods=['GET'])
 @app.route('/index', methods=['GET'])
 @app.route('/index/<int:page>', methods=['GET'])
@@ -35,7 +44,8 @@ def index(page=1):
     return render_template("index.html",
                            title='Home',
                            user=user,
-                           stocks=stocks)
+                           stocks=stocks,
+                           gtag_tracking_id=app.gtag_tracking_id)
 
 
 @app.route('/graph', methods=['GET'])
@@ -46,7 +56,8 @@ def graph():
     ).scalar()
     return render_template("graph.html",
                            title='Graph',
-                           user=user)
+                           user=user,
+                           gtag_tracking_id=app.gtag_tracking_id)
 
 
 # list stocks txt api

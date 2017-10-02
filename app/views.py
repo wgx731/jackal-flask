@@ -1,4 +1,4 @@
-from flask import render_template, jsonify, Response, request, g
+from flask import render_template, jsonify, Response, request, g, abort
 from app import app, manager, sentry
 from app.utils import get_all_stocks, get_all_stocks_with_paging,\
         get_all_stocks_as_csv
@@ -26,9 +26,15 @@ def accept_csv():
 def internal_server_error(error):
     return render_template(
         '500.html',
+        user={'username': 'anonymous'},
         event_id=g.sentry_event_id,
         public_dsn=sentry.client.get_public_dsn('https')
-    )
+    ), 500
+
+
+@app.route('/error', methods=['GET'])
+def raise_error():
+    return abort(500)
 
 
 @app.route('/', methods=['GET'])

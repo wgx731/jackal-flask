@@ -57,6 +57,10 @@ class JackalFlaskTest(unittest.TestCase):
     def tearDown(self):
         del self.app
 
+    def test_500(self):
+        result = self.app.get('/error')
+        self.assertEqual(result.status_code, 500)
+
     def test_basic_auth_wrong(self):
         result = self.app.get('/index')
         self.assertEqual(result.status_code, 401)

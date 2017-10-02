@@ -14,7 +14,7 @@ before_script:
     - python create_db_only.py
 script:
     - coverage run --source=app tests.py
-after_script:
+after_success:
     - coverage report
 deploy:
   provider: heroku

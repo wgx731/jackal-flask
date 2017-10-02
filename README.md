@@ -1,6 +1,11 @@
 Jackal Flask - Setup
 ========================
 
+* [![Build Status](https://travis-ci.org/wgx731/jackal-flask.svg?branch=final)](https://travis-ci.org/wgx731/jackal-flask)
+* [![GitHub issues](https://img.shields.io/github/issues/wgx731/jackal-flask.svg?style=flat)](https://github.com/wgx731/jackal-flask/issues)
+* [![GitHub forks](https://img.shields.io/github/forks/wgx731/jackal-flask.svg?style=flat)](https://github.com/wgx731/jackal-flask/network) 
+* [![GitHub stars](https://img.shields.io/github/stars/wgx731/jackal-flask.svg?style=flat)](https://github.com/wgx731/jackal-flask/stargazers)
+
 ## Idea Source
 
 [Jackal](https://en.wikipedia.org/wiki/Jackal_(video_game)) as [Python Flask](http://flask.pocoo.org) tutorial :video_game:

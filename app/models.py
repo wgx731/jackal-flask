@@ -78,4 +78,3 @@ class Stock(db.Model):
             self.volume,
             self.date
         )
-

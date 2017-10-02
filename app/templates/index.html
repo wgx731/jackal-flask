@@ -1,7 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>Hi, {{ user.username }}!</h1>
-    <table>
+<div class="row column">
+    <h2 class="callout primary">Stocks Table</h2>
+</div>
+<div class="row column">
+    <table class="table-scroll hover">
         <thead>
             <tr>
                 <th>date</th>
@@ -14,17 +17,30 @@
             </tr>
         </thead>
         <tbody>
-            {% for stock in stocks %}
-                <tr>
-                    <td>{{stock.date}}</td>
-                    <td>{{stock.open}}</td>
-                    <td>{{stock.high}}</td>
-                    <td>{{stock.low}}</td>
-                    <td>{{stock.close}}</td>
-                    <td>{{stock.volume}}</td>
-                    <td>{{stock.symbol}}</td>
-                </tr>
+            {% for stock in stocks.items %}
+            <tr>
+                <td>{{stock.date}}</td>
+                <td>{{stock.open}}</td>
+                <td>{{stock.high}}</td>
+                <td>{{stock.low}}</td>
+                <td>{{stock.close}}</td>
+                <td>{{stock.volume}}</td>
+                <td>{{stock.symbol}}</td>
+            </tr>
             {% endfor %}
         </tbody>
     </table>
+    <ul class="pagination" role="navigation" aria-label="Pagination">
+        {% if stocks.has_prev %}
+            <li class="pagination-previous"><a href="{{ url_for('index', page=stocks.prev_num) }}">Newer Stocks</a></li>
+        {% else %}
+            <li class="pagination-previous disabled">Newer Stocks</li>
+        {% endif %}
+        {% if stocks.has_next %}
+            <li class="pagination-next"><a href="{{ url_for('index', page=stocks.next_num) }}">Older Stocks</a></li>
+        {% else %}
+            <li class="pagination-next disabled">Older Stocks</li>
+        {% endif %}
+    </ul>
+</div>
 {% endblock %}

@@ -20,9 +20,10 @@ def post_json(client, url, data):
 class JackalFlaskTest(unittest.TestCase):
 
     def setUp(self):
-        app.config['SQLALCHEMY_DATABASE_URI'] = default_db_uri.replace(
-            "local", "test"
-        )
+        if 'sqlite' in app.config['SQLALCHEMY_DATABASE_URI']:
+            app.config['SQLALCHEMY_DATABASE_URI'] = default_db_uri.replace(
+                "local", "test"
+            )
         app.testing = True
         self.app = app.test_client()
         with app.app_context():
@@ -30,7 +31,8 @@ class JackalFlaskTest(unittest.TestCase):
 
     def tearDown(self):
         db.drop_all()
-        os.unlink(default_db_path.replace("local", "test"))
+        if 'sqlite' in app.config['SQLALCHEMY_DATABASE_URI']:
+            os.unlink(default_db_path.replace("local", "test"))
         del self.app
 
     def test_basic_auth_wrong(self):

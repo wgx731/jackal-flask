@@ -34,6 +34,7 @@ def internal_server_error(error):
 
 @app.route('/error', methods=['GET'])
 def raise_error():
+    sentry.captureMessage('human error here.')
     return abort(500)
 
 

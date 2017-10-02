@@ -3,19 +3,26 @@ import base64
 import json
 from datetime import date
 import unittest
-from flask import url_for
 from app import app, db, default_db_path, default_db_uri
 from app.models import User, Stock
 
+
 def post_json(client, url, data):
     data = json.dumps(data)
-    resp = client.post(url, headers={'Content-Type': 'application/json'}, data=data)
+    resp = client.post(
+        url,
+        headers={'Content-Type': 'application/json'},
+        data=data
+    )
     return resp, json.loads(resp.data)
+
 
 class JackalFlaskTest(unittest.TestCase):
 
     def setUp(self):
-        app.config['SQLALCHEMY_DATABASE_URI'] = default_db_uri.replace("local", "test")
+        app.config['SQLALCHEMY_DATABASE_URI'] = default_db_uri.replace(
+            "local", "test"
+        )
         app.testing = True
         self.app = app.test_client()
         with app.app_context():
@@ -37,9 +44,11 @@ class JackalFlaskTest(unittest.TestCase):
         self.assertEqual(result.status_code, 401)
         result = self.app.get(
             '/index',
-            headers = {
-                'Authorization': 'Basic ' + 
-                base64.b64encode(bytes('wgx731:wrongpass', 'ascii')).decode('ascii')
+            headers={
+                'Authorization': 'Basic ' +
+                base64.b64encode(
+                    bytes('wgx731:wrongpass', 'ascii')
+                ).decode('ascii')
             }
         )
         self.assertEqual(result.status_code, 401)
@@ -69,7 +78,7 @@ class JackalFlaskTest(unittest.TestCase):
         self.assertEqual(result.status_code, 401)
         result = self.app.get(
             '/index',
-            headers = {
+            headers={
                 'Authorization': 'Bearer wrongtoken'
             }
         )
@@ -85,9 +94,11 @@ class JackalFlaskTest(unittest.TestCase):
         db.session.commit()
         result = self.app.get(
             '/index',
-            headers = {
-                'Authorization': 'Basic ' + 
-                base64.b64encode(bytes('wgx731:hackme', 'ascii')).decode('ascii')
+            headers={
+                'Authorization': 'Basic ' +
+                base64.b64encode(
+                    bytes('wgx731:hackme', 'ascii')
+                ).decode('ascii')
             }
         )
         self.assertEqual(result.status_code, 200)
@@ -112,13 +123,36 @@ class JackalFlaskTest(unittest.TestCase):
         db.session.commit()
         result = self.app.get(
             '/',
-            headers = {
-                'Authorization': 'Basic ' + 
-                base64.b64encode(bytes('wgx731:hackme', 'ascii')).decode('ascii')
+            headers={
+                'Authorization': 'Basic ' +
+                base64.b64encode(
+                    bytes('wgx731:hackme', 'ascii')
+                ).decode('ascii')
             }
         )
         self.assertEqual(result.status_code, 200)
+        self.assertIn(b'Stocks Table', result.data)
         self.assertIn(b'GOOGL', result.data)
+
+    def test_graph(self):
+        """Assert that user successfully lands on graph page"""
+        db.session.add(User(
+            'wgx731',
+            'wgx731@gmail.com',
+            'hackme'
+        ))
+        db.session.commit()
+        result = self.app.get(
+            '/graph',
+            headers={
+                'Authorization': 'Basic ' +
+                base64.b64encode(
+                    bytes('wgx731:hackme', 'ascii')
+                ).decode('ascii')
+            }
+        )
+        self.assertEqual(result.status_code, 200)
+        self.assertIn(b'Stocks Graph', result.data)
 
     def test_stocks_csv(self):
         """Assert that stock csv api returns csv result"""
@@ -182,7 +216,10 @@ class JackalFlaskTest(unittest.TestCase):
         db.session.add(user)
         db.session.commit()
         esp, jdata = post_json(
-            self.app, '/auth', {'username': user.username, 'password': 'hackme'}
+            self.app, '/auth', {
+                'username': user.username,
+                'password': 'hackme'
+            }
         )
         token = jdata['access_token']
         result = self.app.get('/api/stocks', headers={
@@ -204,6 +241,6 @@ class JackalFlaskTest(unittest.TestCase):
         self.assertEqual(result.status_code, 200)
         self.assertIn('application/json', result.headers['Content-Type'])
 
+
 if __name__ == '__main__':
     unittest.main()
-

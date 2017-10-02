@@ -157,10 +157,20 @@ _NOTE:_ stop app using `Ctrl+C`, use `Git Bash` in Windows
 
 * `heroku run python create_db.py -a <heroku-normal-app-name>`
 
-### Setup JWT secret
+### Setup JWT Secret
 
 * `heroku config -a <heroku-normal-app-name>`
 * `heroku config:set SECRET_KEY=<secret-key-for-heroku-normal-app> -a <heroku-normal-app-name>`
+
+### Setup Google Analytics Tracking ID
+
+* `heroku config -a <heroku-normal-app-name>`
+* `heroku config:set GTAG_TRACKING_ID=<gtag-tracking-id-for-heroku-normal-app> -a <heroku-normal-app-name>`
+
+### Setup Sentry DSN
+
+* `heroku config -a <heroku-normal-app-name>`
+* `heroku config:set SENTRY_DSN=<sentry-dsn-for-heroku-normal-app> -a <heroku-normal-app-name>`
 
 ## Contributing
 

@@ -18,11 +18,15 @@ app.gtag_tracking_id = os.environ.get(
     'GTAG_TRACKING_ID',
     'your-google-tracking-id'
 )
+app.dsn = os.environ.get('SENTRY_DSN')
 
 cors = flask_cors.CORS(app, resources={r"/api/*": {"origins": "*"}})
 db = flask_sqlalchemy.SQLAlchemy(app)
 manager = flask_restless.APIManager(app, flask_sqlalchemy_db=db)
 bcrypt = flask_bcrypt.Bcrypt(app)
-sentry = Sentry(app)
+if app.dsn is None:
+    sentry = Sentry(app)
+else:
+    sentry = Sentry(app, app.dsn)
 
 from app import models, auth, views
